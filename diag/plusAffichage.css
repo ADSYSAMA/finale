@@ -1,0 +1,17 @@
+#data-table {
+	display: none;
+}
+.bar span {
+	background: #fefefe url(diag/images/info-bg.gif) 0 100% repeat-x;
+}
+
+.fig1 {
+	background: #65c2e8 url(diag/images/normalTravail2.gif) 0 0 repeat-y;
+}
+.fig2 {
+	background: #eea151 url(/images/bar-03-bg.gif) 0 0 repeat-y;
+}
+
+.fig1.surTravail{
+	background: #eea151 url(diag/images/surTravail2.gif) 0 0 repeat-y;
+}

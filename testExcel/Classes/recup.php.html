@@ -1,0 +1,541 @@
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>test</title> 
+</head> 
+
+<body>
+
+<div id="conteneur" style="display:none; background-color:transparent; position:absolute; top:100px; left:5%; margin-right:5%; height:50px; width:90%; border:1px solid #000000;">
+	<div id="barre" style="display:block; background-color:#CCCCCC; width:0%; height:100%;">
+		<div id="pourcentage" style="text-align:right; height:100%; font-size:1.8em;">
+			&nbsp;
+		</div>
+	</div>
+</div>
+
+<p>Votre fichier Excel sera disponible à la fin dans le dossier Classes (www/testExcel/Classes/Distancier.xls)</p>
+
+<?php
+session_start();
+// VOIR PHP_XLSXWriter
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                      					Récupération de l'ID de l'URL                                            //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	if (isset ($_GET['id']) and trim($_GET['id'])!="")
+	{
+		$id=$_GET['id'];   
+	}
+
+echo "<script>";
+	echo "document.getElementById('conteneur').style.display = \"block\";";
+echo "</script>";
+
+
+// Timer permettant de connaître le temps d'exécution d'une page web
+// Début timer
+$timestart=microtime(true);
+ini_set('max_execution_time',100000);
+
+	require('connexion.php');
+
+	//Met à jour l'indice dans l'HTML
+	function progression($indice)
+	{	
+		echo "<script>";
+			echo "document.getElementById('pourcentage').innerHTML='$indice%';";
+			echo "document.getElementById('barre').style.width='$indice%';";
+		echo "</script>";
+		
+		forceFlush();
+	}
+	
+	function dummyErrorHandler ($errno, $errstr, $errfile, $errline) {
+	} 
+	
+	//Fonction permettant de forcer la page web à actualiser l'aaffichage en temps réel.
+	function forceFlush() {   
+		ob_start();
+		ob_end_clean();
+		flush();
+		set_error_handler("dummyErrorHandler");
+		ob_end_flush();
+		restore_error_handler();
+	} 
+date_default_timezone_set('Europe/Paris');
+
+	$valeurCondition=75018;
+
+	//Récupération des éléments nécessaires dans la BDD pour le calcul du distancier.
+	$req1 = "select ID,Longitude,Latitude,Adresse, CODE_POSTAL from distancier where CODE_POSTAL = :condition";
+	$req2 = "select ID,Longitude,Latitude,Adresse, ZONE from distancier where ZONE = :condition";
+	$req3 = "select ID,Longitude,Latitude,Adresse, USEI from distancier where USEI = :condition";
+	
+	
+	$reponse1 = $db->prepare($req1);
+	$reponse1->bindParam('condition',$valeurCondition,PDO::PARAM_INT);
+	$champs = count($reponse1);
+	$reponse1->execute();
+	//echo $champs;
+	
+	$longitude = array();
+	$latitude = array();
+	$id = array();
+	$adresse = array();
+
+		
+		while ($resultat=$reponse1->fetch(PDO::FETCH_ASSOC))
+		{
+		
+			array_push($id,$resultat['ID']);
+			array_push($adresse,$resultat['Adresse']);
+				array_push($latitude,(String)$resultat['Latitude']);
+			array_push($longitude,(String)$resultat['Longitude']);	
+			
+			//get_coordonees_from_adresse($resultat['ADRESSE'].' '.$resultat['CODE_POSTAL'].' '.$resultat['VILLE']);
+			
+		
+	}
+	// 	echo '<br>';
+	// echo '<br>';
+	// 	echo '<br>';
+	// echo '<br>';
+	// 	echo '<br>';
+	// echo '<br>';
+	// 	echo '<br>';
+	// echo '<br>';
+	// 	echo '<br>';
+	// echo '<br>';
+	// print_r($id);
+	// print_r($adresse);
+	// echo '<br>';
+	// echo '<br>';
+	// print_r($longitude);
+	// echo '<br>';
+	// echo '<br>';
+	// print_r($latitude);
+	// echo '<br>';
+	// echo '<br>';
+	
+	
+	//var_dump($longitude);
+	//var_dump($latitude);
+	//var_dump($id);
+	
+	//echo count($longitude)." / ";
+	//echo count($latitude)." / ";
+	//echo count($id)." / ";
+	
+	$lieux = array();
+	
+	//Récupération des éléments nécessaires dans la BDD pour le calcul du distancier.
+	for($i=0;$i<count($id);$i++){
+	
+		$req2 = "select SITE_CLIENT from distancier where ID=".$id[$i]."";
+		$reponse2 = $db->query($req2);
+		$champs = count($reponse2);
+		//echo $champs;
+
+
+			while ($resultat=$reponse2->fetch(PDO::FETCH_ASSOC))
+			{
+				array_push($lieux,$resultat['SITE_CLIENT']);
+				
+				
+				//get_coordonees_from_adresse($resultat['ADRESSE'].' '.$resultat['CODE_POSTAL'].' '.$resultat['VILLE']);
+				
+			
+		}	
+
+		//print_r($lieux);
+	}
+	//var_dump($lieux);
+	
+/*
+	
+	
+	$req1 = "SELECT ADRESSE,CODE_POSTAL,VILLE FROM distancier";
+	 //echo $req1."\n";
+	$reponse1 = $db->query($req1);
+	$champs = count($reponse1);
+	
+	$tableau= array();
+
+		
+		while ($resultat=$reponse1->fetch(PDO::FETCH_ASSOC))
+		{
+		
+			//echo '<p>'.$resultat['ADRESSE'].'</br>'.$resultat['CODE_POSTAL'].' '.$resultat['VILLE'].'</p>';
+			array_push($tableau,$resultat['ADRESSE'].' '.$resultat['CODE_POSTAL'].' '.$resultat['VILLE']);
+			  // var_dump($tableau);
+			
+			
+			//get_coordonees_from_adresse($resultat['ADRESSE'].' '.$resultat['CODE_POSTAL'].' '.$resultat['VILLE']);
+			
+		
+	}
+	
+	$champs = count($tableau);*/
+	
+	
+	
+// Fonction permettant d'obtenir les coordonnées à partir d'une adresse postale.
+/*function get_coordonees_from_adresse($adresse)
+{
+  $adresse = urlencode($adresse);
+  // echo $adresse;
+ 
+  $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$adresse.'';
+  $page = file_get_contents($url);
+  // echo $page ;
+  $parsed_json = json_decode($page);
+  
+  
+  $location = $parsed_json->{'results'}[0]->{'geometry'}->{'location'};
+    $lattitude = $parsed_json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
+	$longitude = $parsed_json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
+		
+	 // echo $lattitude.','.$longitude ;
+
+   var_dump($location);
+
+// echo $page;
+
+return ($lattitude.','.$longitude);
+}*/
+function foo($seconds) {
+  		$t = round($seconds);
+  		return sprintf('%02d:%02d', ($t/3600),($t/60%60));
+		}
+	//Fonction retournant le temps de parcours entre deux points.
+    function getDistance($adresse1,$adresse2,$db) {
+
+    	$pointA="Select Latitude,Longitude from distancier where Adresse= :adresse";
+		$req = $db->prepare($pointA);
+		$req->bindValue(':adresse',$adresse1);
+		$req->execute();
+
+		$arr= $req->fetch(PDO::FETCH_ASSOC);
+		
+    	$pointB="Select Latitude,Longitude from distancier where Adresse= :adresse2";
+		$req2 = $db->prepare($pointB);
+		$req2->bindValue(':adresse2',$adresse2);
+		$req2->execute();
+
+		$arr2= $req2->fetch(PDO::FETCH_ASSOC);
+		
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// print_r($arr);
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// print_r($arr2);
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';
+
+		// echo $arr['Latitude'];
+		// echo'<br>';	
+		// echo'<br>';
+		// echo $arr['Longitude'];
+		// echo'<br>';	
+		// echo'<br>';
+		// echo $arr2['Latitude'];
+		// echo'<br>';	
+		// echo'<br>';
+		// echo $arr2['Longitude'];
+
+		$distance=acos(sin(deg2rad($arr['Latitude']))*sin(deg2rad($arr2['Latitude']))+cos(deg2rad($arr['Latitude']))*cos(deg2rad($arr2['Latitude']))*cos(deg2rad($arr2['Longitude']-$arr['Longitude'])))*6378137;
+
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo'<br>';	
+		// echo $distance;
+		// echo '<br>';
+		// echo '<br>';
+
+		// $distance = acos($distance);
+		// echo '<br>';
+		// echo '<br>';
+		// echo $distance;
+		// echo '<br>';
+		// echo '<br>';
+
+		// $distance = $distance*6371;
+		// echo '<br>';
+		// echo '<br>';
+		// echo $distance;
+		$distance=$distance/1000+3;//(arrondis +3km car la route n'est pas en ligne droite)
+		echo $distance;
+		// echo '<br>';
+		// echo($distance);
+
+		$vitesseConst=20;
+    	$duree=($distance/$vitesseConst)*3600; 
+    	
+    	echo '<br>';
+    	echo '<br>';
+    	echo $duree;
+    	echo '<br>';
+    	echo '<br>';
+
+    	
+		$duree= foo($duree);
+		return $duree;
+		
+	}
+
+
+
+
+		  // $a=get_coordonees_from_adresse($tableau[0]);
+		// $b=get_coordonees_from_adresse($tableau[1]);
+	  // getDistance($a,$b);
+	 // $res=getDistance(get_coordonees_from_adresse($tableau[0]),get_coordonees_from_adresse($tableau[2]));
+	 // echo $res ;
+
+
+
+// Initialisation du fichier Excel (création + graphisme)
+
+include 'PHPExcel.php';
+include 'PHPExcel/Writer/Excel5.php';
+
+$workbook = new PHPExcel;
+
+$sheet = $workbook->getActiveSheet();
+		
+				
+$column = 'A';		
+$sheet->getColumnDimension($column)->setWidth(50);
+
+for ($j = 1; $j <= count($id)+1; $j++) {
+	for ($l = 1; $l <= 1; $l++) {
+		$sheet->getStyle($column.$l)->getAlignment()->setTextRotation(60);
+		$column++;
+	}
+}
+
+
+
+$column = 'A';
+
+for ($l = 2; $l < count($id)+2; $l++) {
+
+	$sheet->setCellValue($column.$l,$lieux[$l-2]);
+	$sheet->getStyle($column.$l)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+}
+
+$column = 'B';
+for ($j = 2; $j < count($id)+2; $j++) {
+	for ($l = 1; $l <= 1; $l++) {
+		$sheet->setCellValue($column.$l,$lieux[$j-2]);
+		$sheet->getStyle($column.$l)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+		$column++;
+	}
+}
+	
+	//Création de deux tableaux (1er: Contenir les valeurs des cases , 2ème: Contient les chiffres 1/2/3/4/... pour servir à remplir que
+	//la partie diagonale suppérieure du tableau Excel)
+	
+	$tab=array();
+	
+	for ($i=0;$i<count($id);$i++){
+		$tab[$i]=array();
+	}
+	$instanciation=0;
+	$tabInstanciation = array();
+	for ($j=0;$j<count($id);$j++){
+		array_push($tabInstanciation,$instanciation);
+		$instanciation++;
+	}
+	
+	for ($i=0;$i<count($id);$i++){
+			for ($j=0;$j< count($id);$j++){
+				array_push($tab[$i],null);
+			}
+			//echo '<pre>';
+			//var_dump($tab[$i]);
+			//echo '</pre>';
+	}
+	
+	
+	echo "<script>";
+	echo "function vide() {";
+	echo "	}";
+	echo "</script>";
+	
+	
+	//Boucle générale réunnissant les fonctions principales (calcul distancier + remplissage cases)	
+	for ($i=0;$i<count($id);$i++){
+		$interRemplissage=0;
+		//$indice = round((($i+1)*100) / count($id));
+		//progression($indice);
+		//echo $i." ";
+			for ($j=0;$j<count($id);$j++){
+				if($i==(count($id)-1)){
+					$indice = round((($i+1)*100) / count($id));
+				}
+				else{
+					$indice = (round((($i+1)*100) / count($id))+round(((($j+1)*100)/count($id))/count($id)))-1;
+				}
+				progression($indice);
+				if(in_array($interRemplissage,$tabInstanciation)){
+					
+				
+					usleep(200000);
+
+					// $interDep=(floatval($latitude[$i]).','.floatval($longitude[$i]));
+					// $interArri=(floatval($latitude[$j]).','.floatval($longitude[$j]));
+					// echo'<br>';
+					// echo'<br>';
+					// echo'<br>';
+					// echo'<br>';
+					// echo'<br>';
+					// echo'<br>';
+					// echo'<br>';
+					// echo'<br>';
+					// echo'<br>';
+					print($adresse[$i].'   ');
+					echo'<br>';
+					echo'<br>';
+					print($adresse[$j]);
+					$res=getDistance($adresse[$i],$adresse[$j],$db);
+					
+
+					usleep(200000);
+					
+
+					$tab[$i][$j]=$res;
+					
+				}
+				$interRemplissage++;
+			}
+			//echo "Inter: ".$i;
+			unset($tabInstanciation[$i]);
+			//echo'<pre>';
+			//var_dump($tab[$i]);
+			//echo'</pre>';			
+	}
+	
+	
+	$indice=0;
+	
+	//Contient les lettres B/C/D/E/... pour servir à remplir seulement la diagonale du tableau Excel
+	$colonneDep = 'B';
+	$tabDep = array();
+	for ($j=0;$j<count($id);$j++){
+		array_push($tabDep,$colonneDep);
+		$colonneDep++;
+	}
+	//var_dump($tabDep);
+	//echo $colonneDep;
+	
+	for ($i=2;$i<count($id)+2;$i++){
+		$column = 'B';
+		for ($j=2;$j<count($id)+2;$j++){
+			if(in_array($column,$tabDep)){
+				if($column==$tabDep[$i-2]){
+					$sheet->setCellValue($column.$i,'00:00');
+				}
+				else{
+					$sheet->setCellValue($column.$i, $tab[$i-2][$j-2]);
+				}
+			}
+			$sheet->getStyle($column.$i)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+			$column++;	
+		}
+		//echo "I:".($i-2)." Valeur: ".$tabDep[$i-2]."</br>";
+		unset($tabDep[$i-2]);
+	}
+	
+	$indice=0;
+	
+	//Suite initialisation graphisme du tableau Excel
+	for ($i=2;$i<count($id)+2;$i++){
+		$column = 'A';
+		for ($j=2;$j<count($id)+3;$j++){
+
+			  if ($indice % 2 == 0){
+				//echo $indice;
+				$sheet->getStyle($column.$i)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('F2F2F2');
+				
+			 }
+			 $column++;
+		}
+		$indice++;		
+		
+		
+
+	}
+
+//Écriture/Sauvegarde dans le fichier "Distancier.xls"
+$writer = new PHPExcel_Writer_Excel5($workbook);
+$writer->setPreCalculateFormulas(false);
+
+$date = date("d-m-Y");
+$heure = date("H-i");
+
+$datexls = date('['.$date.'('.$heure.')]');
+
+$nomxls3 = 'Distancier'.$datexls.'{'.$valeurCondition.'}.xls';
+
+$records = $nomxls3;
+
+$writer->save($records);
+
+echo "<script>";
+	echo "document.getElementById('pourcentage').innerHTML='TERMINE !';";
+echo "</script>";
+
+// Fin Timer
+$timeend=microtime(true);
+$time=$timeend-$timestart;
+ 
+//Afficher le temps d'éxecution
+$page_load_time = number_format($time, 3);
+//echo "Debut du script: ".date("H:i:s", $timestart);
+//echo "<br>Fin du script: ".date("H:i:s", $timeend);
+//echo "<br>Script execute en " . $page_load_time . " sec";
+
+// Fonction qui permet d'arrondir le résultat du distancier au 5 supérieur.
+function arrondi($minute,$round){
+	//echo "MINUTE: ".$minute."</br>";
+	$ajust=ceil($minute);
+	//echo "AJUST: ".$ajust."</br>";
+	$res=$ajust%$round;
+	//echo "RES: ".$res."</br>";
+	if($res!=0){
+		$moins=5-$res;
+		$resultat=$ajust+$moins;
+		//echo "RESULTAT: ".$resultat."</br>";
+		if($resultat==5){
+			return "05";
+		}
+		else{
+			return $resultat;
+		}
+	}
+	else{
+		return $minute;
+	}
+}
+
+// Redirection automatique vers index.php (page principale) à la fin du script
+//echo "<script type='text/javascript'>document.location.replace('../../index.php');</script>";
+
+?>
+
+</body>
+</html>

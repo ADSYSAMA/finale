@@ -1,0 +1,81 @@
+table {
+border: 2px solid white;
+border-collapse: collapse;
+width: 100%;
+color:black;
+padding-right: 50px;							 /* New */
+
+}
+th {
+font-family: Arial;
+border: thin solid white;
+padding: 5px;
+background-color: #60B3FF ;
+background-image: url(sky.jpg);
+text-align:center;                     /* New */
+}
+td {
+font-family: serif;
+border: 2px solid white;
+
+padding: 5px;
+text-align: center;
+background-color:#DDD;
+color:black;
+font-size:15px;
+}
+
+
+.white
+{
+color:white;
+margin-top: 50px;
+}
+
+	
+.adp, .adp table{
+	color:white;
+}
+
+div #dr
+
+.adp, .adp table, .adp-list {
+			color:#FFF;
+		}
+
+		.adp-stepicon{
+			color:#FFF;
+		}
+		
+		.adp-substep{
+			color:#FFF;
+		}
+		.adp-directions{
+			color:#FFF;
+		}
+
+		form {
+			/* Pour le centrer dans la page */
+			margin: auto;
+			width: auto;
+			/* Pour voir les limites du formulaire */			
+			border-radius: 1em;
+		}
+		select{
+			display: block;
+			text-align: center;
+			width:300px;
+			float: center;}
+			#km{
+				display: block;
+				width:300px;
+				text-align: center;
+				float: center;
+			}
+			#tps{
+				display: block;
+				width:300px;
+				text-align: center;
+				float: center;
+				font-style: bold;
+			}

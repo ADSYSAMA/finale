@@ -1,0 +1,336 @@
+/* Légende */ 
+
+.titreIcone																			
+{
+color: white;		
+padding-left:40%;
+}
+
+
+.titrePlaque
+{
+color: white;		
+padding-left:40%;
+}
+
+.titreZones																			
+{
+color: white;		
+padding-left:40%;
+}
+
+
+h2																			
+{
+color: white;		
+padding-left:47%;
+}
+
+#legende h2:hover , #legende h3:hover, #legende label:hover                        
+{
+cursor: pointer;
+}
+
+table{
+color : white;
+}
+
+
+td {
+padding: 5px;
+text-align: left;
+}
+
+#legende  div.plaque
+{
+float : left;
+width :50%;
+height :300px;
+}
+
+#legende  div.icone
+{
+float : right;
+width :50%;
+height :300px;
+}
+
+#legende  div.icone table#listeIcone
+{
+text-align: center;
+}
+
+
+#legende input /* Placer correctement les checkbox des plaques et des icones */
+{
+float : left;
+margin:5px;   
+}
+
+INPUT#useiEst, INPUT#useiOuest  /* Placer correctement les checkbox des zones Ouest et Est */
+{
+float : left;
+margin:5px; 
+margin-right : 10px;
+margin-left : 35px;
+}
+
+
+
+.titrePlaque INPUT#Plaque, .titreIcone INPUT#Icone, .titreZones INPUT#zoneAll{   /* Placer correctement les 2 checkbox des titres */  
+margin:7px; 
+}
+
+/* Légende pour une fenetre plus petite */ 
+
+@media only screen and (max-width:1900px) {
+	#legende  div.plaque
+	{
+	width :100%;
+	}
+
+	#legende  div.icone
+	{
+	float : bottom;
+	width :100%;
+	}
+}
+
+/* Légende pour écran plus petit */ 
+
+@media only screen and (max-device-width:1300px) {
+	#legende  div.plaque
+	{
+	float : left;
+	width :75%;
+	}
+
+	#legende  div.icone
+	{
+	float : center;
+	float : right;
+	width :25%;
+	}
+}
+
+
+
+.trie  li										
+{
+display: block;
+padding-bottom: 10px;
+
+}
+
+
+#menuChoix p 
+{
+padding-left: 15px;
+}
+
+
+ul.trie, ul.trie2   
+{
+padding-left: 10px;
+padding-right: 10px;
+}
+
+
+ul.trie label:hover                        
+{
+cursor: pointer;
+}
+
+
+
+
+				
+/* Module choix géographique */
+
+
+ul.navigation input
+{
+margin: 10px 5px 10px 10px;        
+}
+
+.cacher
+{
+border-left: 1px solid white;
+border-top: 1px solid white;
+color: white;
+float: right;
+}
+
+
+/* Barre de menu */				
+
+div #search
+{
+float: right;
+padding-top : 2px;
+}
+
+div #blague
+{
+color : white;
+}
+
+#blague:hover
+{
+cursor: pointer;
+}
+
+
+/* Label */	 				
+
+
+.labels 
+{
+background-color: white;	
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 12px;
+font-weight: bold;
+text-align: center;
+width: 70px;
+height : 25px;
+white-space: nowrap;
+}
+
+.labels1 /*75_NE*/
+{
+color: #0000FF;
+background-color: white;
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align: center;
+width: 180px;
+height : 25px;
+border: 3px solid #0000FF;
+white-space: nowrap;
+}
+
+.labels2 /*75_NO*/
+{
+color: #58f7f7;
+background-color: white;
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align: center;
+width: 180px;
+height : 25px;
+border: 3px solid #58f7f7;
+white-space: nowrap;
+}
+
+.labels3 /*75_SE*/
+{
+color: #ff9900;
+background-color: white;
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align: center;
+width: 180px;
+height : 25px;
+border: 3px solid #ff9900;
+white-space: nowrap;
+}
+
+.labels4 /*92_SUD*/
+{
+color: #031fa2;
+background-color: white;
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align: center;
+width: 180px;
+height : 25px;
+border: 3px solid #031fa2;
+white-space: nowrap;
+}
+
+.labels5 /*75_SO*/
+{
+color: #FD6C9E;
+background-color: white;
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align: center;
+width: 180px;
+height : 25px;
+border: 3px solid #FD6C9E;
+white-space: nowrap;
+}
+
+.labels6 /*77_93*/
+{
+color: #660066;
+background-color: white;
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align: center;
+width: 180px;
+height : 25px;
+border: 3px solid #660066;
+white-space: nowrap;
+}
+
+.labels7 /*78_95_92O*/
+{
+color: #ff3000;
+background-color: white;
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align: center;
+width: 180px;
+height : 25px;
+border: 3px solid #ff3000;
+white-space: nowrap;
+}
+
+.labels8 /*91_94*/
+{
+color: #FEE347;
+background-color: white;
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align: center;
+width: 180px;
+height : 25px;
+border: 3px solid #FEE347;
+white-space: nowrap;
+}
+
+.labels9 /*ARCUEIL*/
+{
+color: #33CC00;
+background-color: white;
+font-family: "Lucida Grande", "Arial", sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align: center;
+width: 200px;
+height : 25px;
+border: 3px solid #33CC00;
+white-space: nowrap;
+}
+
+#fleche
+{
+float: right;
+position: fixed;
+right: 10px;
+bottom: 10px;
+}
+
+#fleche:hover
+{
+cursor: pointer;
+}

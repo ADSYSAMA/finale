@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<markers>
+	<!-- Zone Poncelet -->
+<marker lat="48.8793567" lng="2.2975388" type="Poncelet" nom="Poncelet" adresse="33 Rue Poncelet" codepostal="75017" ville="Paris"/>
+<marker lat="48.8751262" lng="2.3050498" type="Poncelet" nom="Beaujon" adresse="206 Rue du Faubourg St Honoré" codepostal="75008" ville="Paris"/>
+<marker lat="48.8570352" lng="2.3050690" type="Poncelet" nom="Palais Rose" adresse="11 Rue Piccini" codepostal="75116" ville="Paris"/>
+<marker lat="48.8560752" lng="2.2795773" type="Poncelet" nom="Pompe" adresse="37 Rue de la Pompe" codepostal="75116" ville="Paris"/>
+<marker lat="48.8795562" lng="2.2903191" type="Poncelet" nom="Ternes" adresse="71 Avenue des Ternes" codepostal="75017" ville="Paris"/>
+<marker lat="48.8681730" lng="2.2961640" type="Poncelet" nom="Bassano" adresse="10 Rue de Bassano" codepostal="75116" ville="Paris"/>
+<marker lat="48.8811296" lng="2.3042548" type="Poncelet" nom="Carnot" adresse="23 Rue Médéric" codepostal="75017" ville="Paris"/>
+<marker lat="48.8645725" lng="2.2825521" type="Poncelet" nom="Sablons" adresse="29 Rue des Sablons" codepostal="75116" ville="Paris"/>
+<marker lat="48.8698008" lng="2.3075859" type="Poncelet" nom="Accueil Champs Elysées" adresse="125 Avenue des Champs Elysées" codepostal="75008" ville="Paris"/>
+<marker lat="48.8579941" lng="2.2812193" type="Poncelet" nom="Accueil Passy" adresse="32 Rue de Passy" codepostal="75116" ville="Paris"/>
+<marker lat="48.8795116" lng="2.2905069" type="Poncelet" nom="Accueil Ternes" adresse="69 Avenue des Ternes" codepostal="75017" ville="Paris"/>
+<marker lat="48.8695739" lng="2.2856048" type="Poncelet" nom="Accueil Victor Hugo" adresse="3 Place Victor Hugo" codepostal="75116" ville="Paris"/>
+	<!-- Fin Zone Poncelet -->
+	<!-- Zone Anjou -->
+<marker lat="48.8698248" lng="2.3207615" type="Anjou" nom="Anjou" adresse="11 Rue d'Anjou" codepostal="75008" ville="Paris"/>
+<marker lat="48.8786118" lng="2.3213512" type="Anjou" nom="Laborde Madrid" adresse="10 Rue de Madrid" codepostal="75008" ville="Paris"/>
+<marker lat="48.8795201" lng="2.3270159" type="Anjou" nom="Accueil Amsterdam" adresse="8-10 rue d'Amsterdam" codepostal="75009" ville="Paris"/>
+<marker lat="48.8728008" lng="2.3339615" type="Anjou" nom="Accueil Haussmann" adresse="21 Boulevard Haussmann" codepostal="75009" ville="Paris"/>
+<marker lat="48.8698463" lng="2.3251741" type="Anjou" nom="Accueil Madeleine" adresse="16 Place de la Madeleine" codepostal="75008" ville="Paris"/> 
+	<!-- Fin Zone Anjou -->
+	<!-- Zone Gutenberg -->
+<marker lat="48.8640206" lng="2.3433980" type="Gutenberg" nom="Gutenberg" adresse="55 rue Jean Jacques Rousseau" codepostal="75001" ville="Paris"/>
+<marker lat="48.8638924" lng="2.3423655" type="Gutenberg" nom="Espace Multimédia Les Halles" adresse="Rue du Louvre" codepostal="75001" ville="Paris"/>
+<marker lat="48.8623097" lng="2.3310676" type="Gutenberg" nom="Tuileries" adresse="Avenue du Général Lemonnier" codepostal="75001" ville="Paris"/>
+<marker lat="48.8618594" lng="2.3475351" type="Gutenberg" nom="Accueil Les Halles" adresse="6 Rue de l'Arc-En-Ciel" codepostal="75001" ville="Paris"/>
+	<!-- Fin Zone Gutenberg -->
+	<!-- Zone Navarin -->
+<marker lat="48.8798433" lng="2.3382054" type="Navarin" nom="Navarin" adresse="20 Rue de Navarin" codepostal="75009" ville="Paris"/>
+<marker lat="48.8928251" lng="2.3284929" type="Navarin" nom="Montmartre" adresse="266 Rue Marcadet" codepostal="75018" ville="Paris"/>
+<marker lat="48.8912704" lng="2.3414898" type="Navarin" nom="Expertel Marcadet" adresse="114 Rue Marcadet" codepostal="75018" ville="Paris"/>
+<marker lat="48.8930908" lng="2.3423238" type="Navarin" nom="Accueil Duhesme" adresse="61 Rue Duhesme" codepostal="75018" ville="Paris"/>
+<marker lat="48.8841360" lng="2.3271779" type="Navarin" nom="Accueil Place Clichy" adresse="6 Avenue de Clichy" codepostal="75018" ville="Paris"/>
+<marker lat="48.8757528" lng="2.3432326" type="Navarin" nom="Accueil La Fayette" adresse="59 Rue La Fayette" codepostal="75009" ville="Paris"/>
+	<!-- Fin Zone Navarin -->
+	<!-- Zone Mansart -->
+<marker lat="48.8994315" lng="2.2097609" type="Mansart" nom="Mansart" adresse="24 Boulevard Jules Mansart" codepostal="92000" ville="Nanterre"/>
+<marker lat="48.9085330" lng="2.2550813" type="Mansart" nom="Charlebourg" adresse="72 Avenue du Général de Gaulle" codepostal="92250" ville="La Garenne Colombes"/>
+<marker lat="48.9358173" lng="2.2925169" type="Mansart" nom="Gennevilliers / Communaux" adresse="Avenue des Lots Communaux" codepostal="92230" ville="Gennevilliers"/>
+<marker lat="48.8835568" lng="2.1860504" type="Mansart" nom="Rueil" adresse="92 Rue Pierre Brossolette" codepostal="92500" ville="Rueil Malmaison"/>
+<marker lat="48.8929103" lng="2.1958129" type="Mansart" nom="Accueil Nanterre / Thorez" adresse="54 Rue Maurice Thorez" codepostal="92000" ville="Nanterre"/>
+<marker lat="48.8794393" lng="2.1846285" type="Mansart" nom="Accueil Rueil / Bel Air" adresse="7 Rue du Bel Air" codepostal="92500" ville="Rueil Malmaison"/>
+	<!-- Fin Zone Mansart -->
+	<!-- Zone Maillot -->
+<marker lat="48.8805238" lng="2.2809817" type="Maillot" nom="Maillot / Chartres" adresse="18 rue Gustave Charpentier" codepostal="75017" ville="Paris">
+<marker lat="48.8911356" lng="2.2549286" type="Maillot" nom="Abreuvoir" adresse="11 Rue de l'Abreuvoir" codepostal="92400" ville="Courbevoie">
+<marker lat="48.9111484" lng="2.2929541" type="Maillot" nom="Asnieres" adresse="Rue Pierre Brossolette" codepostal="92600" ville="Asnieres">
+<marker lat="48.8865129" lng="2.2505968" type="Maillot" nom="Bellini" adresse="30 Terasse Bellini" codepostal="92800" ville="Puteaux">
+<marker lat="48.8860135" lng="2.2462243" type="Maillot" nom="Le Galion / LaFargue" adresse="16 Rue Paul Lafargue" codepostal="92800" ville="Puteaux">
+<marker lat="48.8991374" lng="2.2589443" type="Maillot" nom="Villa Chambon Courbevoie" adresse="17 Villa Chambon" codepostal="92400" ville="Courbevoie">
+<marker lat="48.8962773" lng="2.2944207" type="Maillot" nom="Pereire" adresse="41 Rue Pierre Brossolette" codepostal="92300" ville="Levallois Perret">
+<marker lat="48.8868930" lng="2.2380401" type="Maillot" nom="Puteaux / Pouey" adresse="12 Rue Louis Pouey" codepostal="92800" ville="Puteaux">
+<marker lat="48.8897611" lng="2.2871426" type="Maillot" nom="Anatole France" adresse="37 Rue Anatole France" codepostal="92300" ville="Levallois Perret">
+<marker lat="48.9104677" lng="2.2899391" type="Maillot" nom="Accueil Asnieres" adresse="2 Bis Rue Pierre Brossolette" codepostal="92600" ville="Asnieres">
+<marker lat="48.9032026" lng="2.3036204" type="Maillot" nom="Accueil Clichy / Martre" adresse="99 Boulevard Jean Jaures" codepostal="92110" ville="Clichy">
+<marker lat="48.8951187" lng="2.2876496" type="Maillot" nom="Accueil Levallois / Barbusse" adresse="37 Rue du Président Wilson" codepostal="92300" ville="Levallois Perret"/>
+<marker lat="48.8814799" lng="2.2765498" type="Maillot" nom="Accueil Michelis" adresse="18 Bis Rue Madeleine Michelis" codepostal="92200" ville="Neuilly Sur Seine"/>
+<marker lat="48.8903423" lng="2.2396660" type="Maillot" nom="Accueil Les Quatres Temps" adresse="La Défense" codepostal="92800" ville="Puteaux"/>
+	<!-- Fin Zone Maillot -->
+</markers>

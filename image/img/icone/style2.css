@@ -1,0 +1,304 @@
+/****** MENU HORIZONTAL ****/
+
+#horizontal { 
+	position : relative; 
+	left : 17%; 
+	width : 90%; 
+	margin-top : 05px;
+	padding : 0; 
+	border : 0;
+	text-align : center;
+} 
+
+
+#horizontal, #horizontal ul{ /* Liste */     
+
+        padding : 0; /* pas de marge intérieure */
+        margin : 0; /* ni extérieure */
+        list-style : none; /* on supprime le style par défaut de la liste */
+        line-height : 21px; /* on définit une hauteur pour chaque élément */
+        text-align : center; /* on centre le texte qui se trouve dans la liste */
+}
+
+#horizontal {/* Ensemble du menu */
+	z-index : 10;
+        font-weight : bold; /* on met le texte en gras */
+        font-family : Arial; /* on utilise Arial, c'est plus beau ^^ */
+        font-size : 12px; /* hauteur du texte : 12 pixels */
+}
+
+#horizontal a{ /* Contenu des listes */
+        display : block; /* on change le type d'élément, les liens deviennent des balises de type block */
+        padding : 0; /* aucune marge intérieure */
+        background : #FF6600; /* couleur de fond */        
+        color : #fff; /* couleur du texte */
+        text-decoration : none; /* on supprime le style par défaut des liens (la plupart du temps = souligné) */
+        width : 144px; /* largeur */
+}
+
+#horizontal li{ /* Éléments des listes */       
+        float : left; 
+        /* pour IE qui ne reconnaît pas "transparent" */
+        border-right : 1px solid #fff; /* on met une bordure blanche à droite de chaque élément */
+}
+
+/* IE ne reconnaissant pas le sélecteur ">" */
+html>body #horizontal li{
+        border-right: 1px solid transparent ; /* on met une bordure transparente à droite de chaque élément */
+}
+
+#horizontal li ul{ /* Sous-listes */ 
+        position: absolute; /* Position absolue */
+        width: 144px; /* Largeur des sous-listes */
+        left: -999em; /* Hop, on envoie loin du champ de vision */
+}
+
+
+#horizontal li ul li{ /* Eléments de sous-listes */
+        /* pour ie qui ne reconnaît pas "transparent" (comme précédemment) */
+        border-top : 1px solid #fff; /* on met une bordure blanche en haut de chaque élément d'une sous-liste */
+}
+
+/* IE ne reconnaissant pas le sélecteur ">" */
+html>body #horizontal li ul li{
+        border-top : 1px solid transparent; /* on met une bordure transparente en haut de chaque élément */
+}
+
+#horizontal li ul ul{
+        margin    : -22px 0 0 144px ; /* On décale les sous-sous-listes pour qu'elles ne soient pas au dessus des sous-listes */ 
+        /* pour IE qui ne reconnaît pas "transparent" (comme précédemment) */
+        border-left     : 1px solid #fff ; /* Petite bordure à gauche pour ne pas coller ... */      
+}
+
+/* IE ne reconnaissant pas le sélecteur ">"  */
+html>body #horizontal li ul ul{
+        border-left     : 1px solid transparent ; /* on met une bordure transparente sur la gauche de chaque élément */
+}
+
+#horizontal a:hover {/* Lorsque la souris passe sur un des liens */    
+        color: #000; /* On passe le texte en noir... */
+        background: #fff; /* ... et au contraire, le fond en blanc */
+}
+
+#horizontal li:hover ul ul, #horizontal li.sfhover ul ul{ /* Sous-sous-listes lorsque la souris passe sur un élément de liste */
+        left: -999em; /* On expédie les sous-sous-listes hors du champ de vision */
+}
+
+#horizontal li:hover ul, #horizontal li li:hover ul, #horizontal li.sfhover ul, #horizontal li li.sfhover ul { /* Sous-listes lorsque la souris passe sur un élément de liste ET sous-sous-lites lorsque la souris passe sur un élément de sous-liste */
+        left: auto; /* Repositionnement normal */
+        min-height: 0; /* Corrige un bug sous IE */
+}
+
+/****** ITINERAIRE *********/
+
+
+body{ 
+	font-family : Arial;
+	background : black;
+	margin : 0px ;
+	padding : 0px; 
+}
+
+#container{ 
+	position : relative ;
+	width : 990px ;
+	margin : auto ;
+	background : #FFFFFF ;
+	padding : 20px 0px 20px 0px;
+}
+
+#container h1{ 
+	margin : 0px 0px 10px 10px; 
+}
+
+table.iti{ 
+	margin : 0px 0px 20px 0px;
+	background : #EEEEEE;
+	padding : 10px 20px;
+	border : solid 1px #C0C0C0; 
+}
+
+table.iti input[type=text]{ 
+	border : solid 1px #C0C0C0; 
+}
+
+DIV#directions td{															/* new */
+color : black;
+}
+
+DIV.adp-summary {
+color : black;
+}																			/* new */
+
+table.directions th { 
+	background-color:#C5DDE7;
+	font-size: 15px;
+}
+
+table.directions td { 
+	font-size: 11px;
+}
+
+img { 
+	color: #000000; 
+}
+
+#map_canvas.iti
+{
+	width: 700px;
+	height: 500px;
+	margin: auto;
+}
+
+#directions{
+	width: 2196px;
+	height: 460px;
+	border: 0px solid #333333 ;
+	margin: 2px;
+	overflow: auto;
+	width: auto;
+	text-align: left;
+	font-size: 9px; 
+}
+
+#info{ 
+	margin : 0px 0px 20px 0px;
+	background :#FF6600;
+	padding : 10px 20px;
+	border : solid 1px #C0C0C0; 
+}
+
+.adp, .adp table, .adp-list {
+	color:#FFF;
+}
+/****** FEUILLE DE STYLE ***/
+
+.Style1{
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 30px;
+	font-weight: none;
+	text-align: center;
+	width: 300px;
+	margin-top:0px;
+}
+
+#EmplacementDeMaCarte{
+	margin-left:20px;
+	margin-bottom:20px;
+}
+
+#logo{
+	width : 60px;
+	height: 60px;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+#search{
+	position:relative;
+	float:right;
+	margin-top: 10px;
+}
+
+
+
+/*################## Arborescence des menus ##################*/
+
+.navigation {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	background: #000;
+	color: #fff;
+	width: 200px;
+	font: 1.2em "Trebuchet MS", sans-serif;
+	height: 93%;
+	overflow : auto;
+}
+.navigation a, .navigation span {
+	display: block;
+	padding: 4px 10px;
+	min-height: 40px;
+	height: auto;
+	color: #fff;
+	text-decoration: none;
+	background: #000 url(menu-item.png) left bottom no-repeat;
+	word-wrap: break-word;
+}
+
+.navigation input {
+	float: left;
+}
+
+.navigation .toggleSubMenu a, .navigation .toggleSubMenu span {
+	background-image: url(menu-item-deroule.png);
+}
+
+.navigation .open a, .navigation .open span {
+	background-image: url(menu-item-enroule.png);
+}
+
+.navigation a:hover, .navigation a:focus, .navigation a:active {
+	text-decoration: underline;
+}
+
+.navigation .subMenu {
+	font-size: .8em;
+	background: url(menu-item2.png) 0 0 repeat-x;
+	font-size: .9em;
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #666;
+}
+
+.navigation .subMenu .toggleSubMenu2 a, .navigation .subMenu .toggleSubMenu2 span {
+	background-image: url(menu-item-deroule2.png);
+}
+
+.navigation .subMenu .open a, .navigation .subMenu .open span {
+	background-image: url(menu-item-enroule2.png);
+}
+
+.navigation ul.subMenu a {
+	background: none;
+	padding: 3px 30px;
+}
+
+.navigation .subMenu .toggleSubMenu2 .subMenu2  {
+	padding: 0px;
+	list-style: none;
+	height: 350px;
+	overflow : auto;
+}
+
+.navigation .subMenu .toggleSubMenu2 .subMenu2  a, .navigation .subMenu .toggleSubMenu2 .subMenu2  span {
+	background: white;
+	color: black;
+}
+
+li {
+	list-style: none;
+}
+
+#MonFormulaire{
+	color: #FF6600;
+	text-align: center;
+}
+
+#load{
+	top: 200px;
+	left:200px;
+}
+
+#login_center {
+	color: white;
+}
+
+
+/* Connexion */													
+
+#MonFormulaire
+{
+margin : 5%;
+
+}

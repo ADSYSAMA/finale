@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="FR"> 
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="Namarcil" />
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script type="text/javascript" language="javascript" src="function.js"></script> 
+  <script type="text/javascript" language="javascript" src="function2.js"></script> 
+
+
+  <script type="text/javascript" src="bootstrap.js"></script>  		<!--BootStrap -->
+  <link href="bootstrap.css" rel="stylesheet"> 
+  <script src="respond.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="style2.css" media="screen,projection" />
+  <link rel="stylesheet" type="text/css" href="style3.css" media="screen,projection" />
+  <link rel="stylesheet" type="text/css" href="moteur.css" media="screen,projection" />
+  <!-- TITRE DANS BARRE DE TITRE fenetre du navigateur -->
+  <title>USEI IDF</title>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkIKomOEtofGb7ZaTJqXpNafzndS1h8Zs&sensor=false"></script>
+  <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerwithlabel/src/markerwithlabel.js"></script> <!-- Marker -->
+  <link rel="shortcut icon" href="image/img/mini_orange.jpg">
+  <link rel="stylesheet" href="styles.css">
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+   <script src="script.js"></script>
+
+</head>
+<body>
+<a href='index.php'><img id="logo" src='image/img/france-telecom-orange.jpg' style="border-radius:10px; box-shadow:0 0 15px 2px;" title="Cliquez pour revenir à l'accueil" /></a>
+    <div align="center">
+        <h1 class="Style1"><a href='index.php'></a> Orange USEI </h1> <br/>
+    </div>
+
+
+
+ <?php
+ session_start();
+ ?>
+
+
+ <div id='cssmenu' style='position: :relative; z-index: 200;'>
+        <ul>
+         <li><a href='index.php'>Acceuil</a></li>
+         <li class='active has-sub'><a href='#'>Element</a>
+          <ul>
+           <li class='has-sub'><a href='#'>USEI</a>
+            <ul>
+             <li><a href='AjouterUSEI.php'>Ajouter</a></li>
+             <li><a href='ModifUSEI.php'>Modifier</a></li>
+             <li><a href='AjouterZone.php'>Supprimer</a></li>
+         </ul>
+     </li>
+     <li class='has-sub'><a href='#'>Plaque</a>
+        <ul>
+         <li><a href='AjouterZone.php'>Ajouter</a></li>
+         <li><a href='ModifPlaque.php'>Modifier</a></li>
+         <li><a href='SupprPlaque.php'>Supprimer</a></li>
+     </ul>
+ </li>
+ <li class='has-sub'><a href='#'>Site</a>
+    <ul>
+     <li><a href='/ModifSite.php'>Ajouter</a></li>
+     <li><a href='ModifSite.php'>Modifier</a></li>
+     <li><a href='SupprSite.php'>Supprimer</a></li>
+ </ul>
+</li>
+<li class='has-sub'><a href='#'>Technicien</a>
+    <ul>
+     <li><a href='AjouterTec.php'>Ajouter</a></li>
+     <li><a href='ModifTec.php'>Modifier</a></li>
+     <li><a href='Supprimertech.php'>Supprimer</a></li>
+ </ul>
+</li>
+</ul>
+</li>
+<li class='active has-sub'><a href='#'>Autre</a>
+          <ul>
+<li class='has-sub'><a href='#'>Assigner</a>
+            <ul>
+             <li><a href='Ajoutertech.php'>Techicien à un site</a></li>
+             <li><a href='ModifierSansZone.php'>Les marqueurs à un site</a></li>
+             <li><a href=''>Les marqueurs sans zone</a></li>
+         </ul>
+ </li>
+ <li class='has-sub'><a href='#'>Supprimer</a>
+        <ul>
+         <li><a href='TechSuppr.php'>Un technicien en fonction du site</a></li>
+     </ul>
+ </li>
+ </ul>
+
+
+<li class='active has-sub'><a href='#'>Option</a>
+  <ul>
+   <li class="afficheCacheLegende"><a href='#'>Légende</a></li>
+   <li class="afficheCacheMenu"><a href='#'>Touts les menus</a></li>
+   <li class="afficheCacheMenu1"><a href='#'>Menu Géographique</a></li>
+   <li class="afficheCacheMenu2" ><a href='#'>Menu des interventions</a></li>
+</ul>
+</li>
+
+<li><a href='iti.php'>Itinéaire</a></li>
+<?php 
+                if (!empty($_SESSION['login'])&&$_SESSION['login']=="admin")
+                {
+                    echo '<li><a href="/SQL/bigdump.php">Chargement</a></li>';
+                    echo ('<li class="save">                                
+                            <a href="#">Sauvegarde</a>
+                        </li>');                
+                        
+                }
+            ?>
+<?php
+if (!empty($_SESSION['login']))
+    echo '<li><a href="deco.php">Déconnexion</a></li>';
+  else 
+    echo '<li><a href="login.php">Connexion</a></li>';
+  ?>
+  <form method="post" action="moteur.php" style="float: right; margin-top: 10px;">
+     <p>
+         <input size="0%" name="requete" placeholder="Entrez votre recherche..." type="text"/>     
+         <input value="Recherche" name="submit" type="submit"/>     
+     </p>
+ </form>  
+</ul>
+
+</div>
+
+
+<script type="text/javascript" language="javascript" src="menu.js"></script>

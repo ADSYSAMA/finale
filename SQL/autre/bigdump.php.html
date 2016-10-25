@@ -1,0 +1,702 @@
+<!-- Script qui permet de charger une base de données -->
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="FR"> 
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="author" content="Namarcil" />
+	<!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="/function.js"></script> 
+	<script type="text/javascript" language="javascript" src="/function2.js"></script> 
+	<script type="text/javascript" language="javascript" src="formulaire.js"></script> 
+
+
+	<script type="text/javascript" src="/bootstrap.js"></script>  		<!--BootStrap -->
+	<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> <!-- Pour barre de chargement -->
+	<link href="/bootstrap.css" rel="stylesheet"> 
+	<script src="/respond.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../style2.css" media="screen,projection" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"> <!-- Pour barre de chargement -->
+	<link rel="stylesheet" href="../styles.css">
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="../script.js"></script>
+	
+	<!-- TITRE DANS BARRE DE TITRE fenetre du navigateur -->
+	<title>Importer base de données</title>
+
+	<link rel="shortcut icon" href="/image/img/mini_orange.jpg">
+
+</head>
+
+<body>
+
+		<?php
+		session_start();
+	?>
+
+	<style type="text/css">
+		
+		<?
+		
+		require('traitement.php');
+		
+		?>
+		
+
+		body
+		{ background-color:rgb(64,64,64);
+		}
+
+		
+		center
+		{
+			padding : 1%;
+		}
+		
+		h1 
+		{ font-size:20px;
+		  line-height:24px;
+		  font-family:Arial,Helvetica,sans-serif;
+		  margin-top:5px;
+		  margin-bottom:5px;
+		}
+
+		p,td,th
+		{ 
+		  font-size:15px;
+		  line-height:18px;
+		  font-family:Arial,Helvetica,sans-serif;
+		  margin-top:5px;
+		  margin-bottom:5px;
+		  text-align:justify;
+		  vertical-align:top;
+
+		}
+
+		p.centr
+		{ 
+		  text-align:center;
+		}
+
+		p.smlcentr
+		{ font-size:10px;
+		  line-height:14px;
+		  text-align:center;
+		}
+
+		p.error
+		{ color:#FF0000;
+		  font-weight:bold;
+		}
+
+		p.success
+		{ color:#00DD00;
+		  font-weight:bold;
+		}
+
+		p.successcentr
+		{ font-size:18px;
+		  color:#00DD00;
+		  background-color:#DDDDFF;
+		  font-weight:bold;
+		  text-align:center;
+		}
+
+		td{ 
+			text-align:center;
+		}
+		
+		#selection{
+			background-color:#F8F8F8;
+		}
+
+		td.transparent
+		{ 
+		height : 100%;
+		width : 100%;
+		background-color:#FFFFF0;
+		border : solid #FF6600 4px;
+		padding : 7px;
+
+		}
+
+		form
+		{ margin-top:5px;
+		  margin-bottom:5px;
+		}
+
+		div.skin1
+		{
+		  border-color:white;
+		  background-color:#AAAAEE;
+		  text-align:center;
+		  vertical-align:middle;
+
+		}
+		
+		table
+		{ 
+			float : center;
+			margin-top : 3%;
+			
+		}
+
+		tr.titre th{
+			text-align:center;
+			font-size:13px;
+			font-weight:bold;
+			color:black;
+			border-left:1px solid;
+			border-color:white;
+			background-image:url(test.png);
+				
+
+		}
+
+	   
+		#test
+		{
+			
+			background-color : #706b64;
+			box-shadow : 0px 2px 5px #1c1a19;
+			padding : 10px;
+			color : white;
+			font-size : 0.9em;
+			width : 1000px;
+		
+		}
+
+		#celTitre
+		{
+			text-align:center;
+			font-size:13px;
+			font-weight:bold;
+			color:black;
+			border-left:1px solid;
+			border-color:white;
+			background-image:url(test.png);
+		}
+			
+		#cellule
+		{
+			border:1px solid black;
+			border-collapse:collapse;
+		}
+		
+		.nomColo{
+			overflow-x : scroll;
+			width:1000px;
+			float: center;
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+	</style>
+
+	<a href='/index.php'><img id="logo" src='/image/img/france-telecom-orange.jpg' title="Cliquez pour revenir à l'accueil" /></a>
+	<div align="center">
+		<h1 class="Style1"><a href='/index.php'></a> Orange USEI </h1> <br/>
+	<div id='cssmenu' style='position: :relative; z-index: 200;'>
+        <ul>
+         <li><a href='index.php'>Acceuil</a></li>
+         <li class='active has-sub'><a href='#'>Element</a>
+          <ul>
+           <li class='has-sub'><a href='#'>USEI</a>
+            <ul>
+             <li><a href='AjouterUSEI.php'>Ajouter</a></li>
+             <li><a href='ModifUSEI.php'>Modifier</a></li>
+             <li><a href='AjouterZone.php'>Supprimer</a></li>
+         </ul>
+     </li>
+     <li class='has-sub'><a href='#'>Plaque</a>
+        <ul>
+         <li><a href='AjouterZone.php'>Ajouter</a></li>
+         <li><a href='ModifPlaque.php'>Modifier</a></li>
+         <li><a href='SupprPlaque.php'>Supprimer</a></li>
+     </ul>
+ </li>
+ <li class='has-sub'><a href='#'>Site</a>
+    <ul>
+     <li><a href='/ModifSite.php'>Ajouter</a></li>
+     <li><a href='ModifSite.php'>Modifier</a></li>
+     <li><a href='SupprSite.php'>Supprimer</a></li>
+ </ul>
+</li>
+<li class='has-sub'><a href='#'>Technicien</a>
+    <ul>
+     <li><a href='AjouterTec.php'>Ajouter</a></li>
+     <li><a href='ModifTec.php'>Modifier</a></li>
+     <li><a href='Supprimertech.php'>Supprimer</a></li>
+ </ul>
+</li>
+</ul>
+</li>
+<li class='active has-sub'><a href='#'>Autre</a>
+          <ul>
+<li class='has-sub'><a href='#'>Assigner</a>
+            <ul>
+             <li><a href='Ajoutertech.php'>Techicien à un site</a></li>
+             <li><a href='ModifierSansZone.php'>Les marqueurs à un site</a></li>
+             <li><a href=''>Les marqueurs sans zone</a></li>
+         </ul>
+ </li>
+ <li class='has-sub'><a href='#'>Supprimer</a>
+        <ul>
+         <li><a href='TechSuppr.php'>Un technicien en fonction du site</a></li>
+     </ul>
+ </li>
+ </ul>
+
+
+<li class='active has-sub'><a href='#'>Option</a>
+  <ul>
+   <li class="afficheCacheLegende"><a href='#'>Légende</a></li>
+   <li class="afficheCacheMenu"><a href='#'>Touts les menus</a></li>
+   <li class="afficheCacheMenu1"><a href='#'>Menu Géographique</a></li>
+   <li class="afficheCacheMenu2" ><a href='#'>Menu des interventions</a></li>
+</ul>
+</li>
+
+<li><a href='iti.php'>Itinéaire</a></li>
+<?php 
+                if (!empty($_SESSION['login'])&&$_SESSION['login']=="admin")
+                {
+                    echo '<li><a href="/SQL/bigdump.php">Chargement</a></li>';
+                    echo ('<li class="save">                                
+                            <a href="#">Sauvegarde</a>
+                        </li>');                
+                        
+                }
+            ?>
+<?php
+if (!empty($_SESSION['login']))
+    echo '<li><a href="/deco.php">Déconnexion</a></li>';
+  else 
+    echo '<li><a href="/login.php">Connexion</a></li>';
+  ?>
+  <form method="post" action="moteur.php" style="float: right; margin-top: 10px;">
+     <p>
+         <input size="30%" name="requete" placeholder="Entrez votre recherche..." type="text"/>     
+         <input value="Recherche" name="submit" type="submit"/>     
+     </p>
+ </form>   
+</ul>
+
+</div>
+
+		
+		
+	
+
+		<div id="progressbar"></div>
+	
+<center>
+
+<table width="1200" height="400" cellspacing="0" cellpadding="0">
+<tr><td class="transparent">
+
+<!-- <h1>BigDump: Staggered MySQL Dump Importer ver. <?php echo (VERSION); ?></h1> -->
+
+
+<?php
+
+function skin_open() 
+{
+  echo ('<div class="skin1">');
+}
+
+function skin_close() 
+{
+  echo ('</div>');
+}
+
+function traitementT() 
+{
+  require('traitementTable.php');
+}
+
+skin_open();
+echo ('<h1>Chargement des bases de données</h1>');
+skin_close();
+
+?>
+
+<style>
+
+	#vide td,th{
+		--border: 1px solid;
+		
+	}
+
+	#vide .supprimer
+	{
+		background-image: url(effacer.png);
+		background-repeat: no-repeat;
+		background-position: 4px center;
+		width: 25px;
+		height: 16px;
+		padding: 0;
+		cursor: pointer;
+	}
+	
+	#vide .vider
+	{
+		background-image: url(clean.png);
+		background-repeat: no-repeat;
+		background-position: 4px center;
+		width: 25px;
+		height: 16px;
+		padding: 0;
+		cursor: pointer;
+	}
+
+	#vide .supprimer:hover,.vider:hover
+	{
+		background-color: #ff0;
+	}
+	
+	#vide
+	{
+		box-shadow: 2px 2px 4px rgba(0,0,0,.2);
+		border-radius: 2px;
+		border-collapse: collapse;
+		margin-left: 40px;
+	}
+
+	#vide td
+	{
+		padding: 3px 10px;
+		text-align: center;
+	}
+	
+	#vide th{
+		text-align: center;
+		padding: 3px 10px;
+		--background-color: #706b64;
+		background-image: url(test.png);
+	}
+	
+	#vide tr
+	{
+		background-color: #f0f0ff;
+	}
+
+	#vide tr:nth-child(2n)
+	{
+		background-color: #efe;
+	}
+	
+	body
+	{
+		font-family: sans;
+	}
+
+</style>
+
+<div class="nomColo">
+
+<table align="center" id="test">
+</table>
+
+</div>
+
+<div id="popup_name" class="popup_block">
+	<table id="vide">
+	</table>
+</div>
+
+<body onload="init();">
+
+<form method="post" action="traitementTable.php">
+<div class="principale">
+
+
+<!-- Formulaire de création de table -->
+<table align='center' id='formu'>
+
+	<tr class='titre'><th colspan=5>Nom de la table</th></tr>
+	<tr class='nomTable'><td colspan=5><input size="89%" type="text" name="nomT" /></td></tr>
+	<tr colspan=5 height=10px></tr>
+	<tr class='titre' id="barre"><th>Nom</th><th>Type</th><th>Taille</th><th>Null</th><th>Index</th></tr>
+	<tr id="readroot" >
+			<td><input type="text" name="name[]" /></td>
+			<td><SELECT name="type[]" size="1">
+				<OPTION>---
+				<OPTION>INT
+				<OPTION>VARCHAR
+				<OPTION>TEXT
+				<OPTION>DATE
+				</SELECT></td>
+			<td><input type="text" name="taille[]" /></td>
+			<td><SELECT name="Null[]" size="1">
+				<OPTION>NULL
+				<OPTION>NOT NULL
+				</SELECT></td>
+			<td><SELECT name="index[]" size="1">
+				<OPTION>---
+				<OPTION>PRIMARY
+				</SELECT>
+			</td>
+			<td>
+				<input type="button" class="button" id='moins' value="-" onclick="supprimerLigne($(this))" />				
+			</td>
+		</tr>
+</table>
+
+<input type="button" value="ANNULER" name="annuler" id="annuler" onclick="annulerCreate()"/>
+<span id="writeroot"></span>
+<input type="button" class="button" id="moreFields" value="+" />
+
+<input type="submit" value="CREER" name="envoyer" id="envoyer"/>
+</div>
+</form>
+
+
+<?php
+include('import.php');
+?>
+
+
+
+<script type="text/javascript">
+	
+	
+	// Évènement JavaScript gérant l'affichage des noms des colonnes d'un fichier .CSV et de sa première ligne.
+	$('#visuel').click(function()
+	{
+		var res = new Array();
+		var indice = 0;
+		$.post('traitement.php',
+			{
+				choix: $(this).val(),
+				userfile: $('#userfile').val(),
+				chemin: $('#userfile').val(),
+				
+			},
+			function(reponse)
+			{	
+				res = reponse.split('|');
+				var champs = res.length/2;
+				console.log("Rentré !!");
+				console.log("Réponse: "+res);
+				console.log("taille: "+res.length);
+				console.log("demi: "+champs);
+				
+				
+				while(indice<res.length-1){
+					var ligne='<tr>';
+					var finLigne='</tr>';
+					var temp='';
+					for(l=0;l<champs-1;l++){
+						if(indice<champs-1){
+							var cel = '<th id="celTitre">';
+							var finCel = '</th>';
+							var valTemp= res[indice];
+							temp = cel + valTemp + finCel;
+							console.log(temp);
+							ligne = ligne + temp;
+							indice++;
+						}
+						else{
+							var cel = '<td id="cellule">';
+							var finCel = '</td>';
+							var valTemp= res[indice];
+							temp = cel + valTemp + finCel;
+							console.log(temp);
+							ligne = ligne + temp;
+							indice++;
+						}
+					}
+					ligne = ligne + finLigne;
+					console.log(ligne);
+					$('#test').append(ligne);
+					}
+		});
+	});
+	
+	// Évènement JavaScript gérant l'affichage et l'utilisation du gestionnaire de table dans un Pop-Up.
+	$('#fenPop').click(function()
+	{
+		var res = new Array();
+		var indice = 0;
+		$('#vide').empty();
+		$.post('traitement.php',
+			{
+				choix: "Vider/Supprimer Table",
+				userfile: $('#userfile').val(),
+				chemin: $('#userfile').val(),
+				
+			},
+			function(reponse)
+			{	
+				res = reponse.split('|');
+				var champs = res.length;
+				/*console.log("Rentré !!");
+				console.log("Réponse: "+res);
+				console.log("taille: "+res.length);*/
+				var ligne='<tr>';
+				var finLigne='</tr>';
+				var suppr = '<td class="supprimer"></td>';
+				var vider = '<td class="vider"></td>';
+				var temp='' + ligne + '<th colspan=3>Tables de la BDD' + finLigne;
+				for(i=0; i<champs-1; i++){
+					var cel = '<td>';
+					var finCel = '</td>';
+					temp = temp + ligne + cel + res[i] + finCel + vider + suppr + finLigne;
+				}
+				console.log(temp);
+				$('#vide').append(temp);
+		});
+	});
+	
+	// Évènement JavaScript gérant la suppression ou le vidage des tables.
+	$('#vide').click(function(event)
+	{
+		console.log("Event");
+		if($(event.target).hasClass('supprimer'))
+		{	
+			if (confirm("Voulez-vous réellement supprimer la table "+$(event.target).parent().children().eq(0).html()+" ?")) { // Clic sur OK
+				console.log("supprimer");
+				console.log($(event.target).parent().children().eq(0).html());
+				$.post('traitement.php',
+					{
+						classe: "supprimer",
+						table: $(event.target).parent().children().eq(0).html(),
+					},
+					function()
+					{	
+						console.log("OK Suppression !");
+					});
+				$(event.target).parent().remove();
+			}
+		}
+		else if($(event.target).hasClass('vider'))
+		{
+			if (confirm("Voulez-vous réellement vider la table "+$(event.target).parent().children().eq(0).html()+" ?")) { // Clic sur OK
+				$.post('traitement.php',
+					{
+						classe: "vider",
+						table: $(event.target).parent().children().eq(0).html(),
+					},
+					function()
+					{	
+						console.log("OK Suppression !");
+					});
+			}
+		}
+	});
+	
+	jQuery(function($){
+		
+		//Lorsque vous cliquez sur un lien de la classe poplight
+		$('a.poplight').on('click', function() {
+			var popID = $(this).data('rel'); //Trouver la pop-up correspondante
+			var popWidth = $(this).data('width'); //Trouver la largeur
+
+			//Faire apparaitre la pop-up et ajouter le bouton de fermeture
+			$('#' + popID).fadeIn().css({ 'width': popWidth}).prepend('<a href="#" class="close"><img src="close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>');
+			
+			//Récupération du margin, qui permettra de centrer la fenêtre - on ajuste de 80px en conformité avec le CSS
+			var popMargTop = ($('#' + popID).height() + 80) / 2;
+			var popMargLeft = ($('#' + popID).width() + 80) / 2;
+			
+			//Apply Margin to Popup
+			$('#' + popID).css({ 
+				'margin-top' : -popMargTop,
+				'margin-left' : -popMargLeft
+			});
+			
+			//Apparition du fond - .css({'filter' : 'alpha(opacity=80)'}) pour corriger les bogues d'anciennes versions de IE
+			$('body').append('<div id="fade"></div>');
+			$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn();
+			
+			return false;
+		});
+		
+		
+		//Close Popups and Fade Layer
+		$('body').on('click', 'a.close, #fade', function() { //Au clic sur le body...
+			$('#fade , .popup_block').fadeOut(function() {
+				$('#fade, a.close').remove();  
+		}); //...ils disparaissent ensemble
+			
+			return false;
+		});
+
+	});
+			
+			
+			
+	
+</script>
+	
+<style>
+	
+	#fade { /*--Masque opaque noir de fond--*/
+		display: none; /*--masqué par défaut--*/
+		background: #000;
+		position: fixed; left: 0; top: 0;
+		width: 100%; height: 100%;
+		opacity: .80;
+		z-index: 9999;
+	}
+	.popup_block{
+		display: none; /*--masqué par défaut--*/
+		background: #fff;
+		padding: 20px;
+		border: 20px solid #ddd;
+		float: left;
+		font-size: 1.2em;
+		position: fixed;
+		top: 30%; left: 50%;
+		z-index: 99999;
+		/*--Les différentes définitions de Box Shadow en CSS3--*/
+		-webkit-box-shadow: 0px 0px 20px #000;
+		-moz-box-shadow: 0px 0px 20px #000;
+		box-shadow: 0px 0px 20px #000;
+		/*--Coins arrondis en CSS3--*/
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+	}
+	
+	.popup_block #vide{
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	img.btn_close {
+		float: right;
+		margin: -55px -55px 0 0;
+	}
+	/*--Gérer la position fixed pour IE6--*/
+	*html #fade {
+		position: absolute;
+	}
+	*html .popup_block {
+		position: absolute;
+	}
+
+</style>
+
+<!-- <a href="#" data-width="500" data-rel="popup_name" class="poplight">Voir la pop-up - Width = 500px</a>-->
+
+
+
+
+
+</td></tr></table>
+
+
+</center>
+
+</body>
+</html>
+
+

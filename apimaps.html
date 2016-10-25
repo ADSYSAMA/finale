@@ -1,0 +1,993 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="FR"> 
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="author" content="Namarcil" />
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry"></script> <!-- Google Map API -->
+		<script type="text/javascript" language="javascript" src="function.js"></script> 
+		<script type="text/javascript" language="javascript" src="function2.js"></script> 
+		<script type="text/javascript" src="bootstrap.js"></script>  		<!--BootStrap -->
+		<link href="bootstrap.css" rel="stylesheet"> 
+
+		<script src="jquery-ui.js"></script> <!-- Pour la barre de chargement -->
+		<script src="gmaps.js"></script> <!-- librairie pour menu contextuel, ne fonctionne pas 31/10/2014 -->
+		
+		<script src="respond.js"></script>  <!-- MediaQueries sous IE8, permet de faire fonctionner la barre de menu: -->
+  		<link rel="stylesheet" type="text/css" href="style2.css" media="screen,projection" />
+		<link rel="stylesheet" type="text/css" href="style3.css" media="screen,projection" />
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"> <!-- Pour la barre de chargement -->
+
+  		<!-- TITRE DANS BARRE DE TITRE fenetre du navigateur -->
+  		<title>USEI IDF</title>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkIKomOEtofGb7ZaTJqXpNafzndS1h8Zs&sensor=false"></script> <!-- Google Map API -->
+		<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerwithlabel/src/markerwithlabel.js"></script> <!-- Marker -->
+		<link rel="shortcut icon" href="image/img/mini_orange.jpg">
+		
+		
+
+
+<script type="text/javascript">
+
+function open_infos()
+{
+width = 300;
+height = 200;
+if(window.innerWidth)
+{
+var left = (window.innerWidth-width)/2;
+var top = (window.innerHeight-height)/2;
+}
+else
+{
+var left = (document.body.clientWidth-width)/2;
+var top = (document.body.clientHeight-height)/2;
+}
+window.open('index.php','nom_de_ma_popup','menubar=no, scrollbars=no, top='+top+', left='+left+', width='+width+', height='+height+'');
+}
+
+</script>
+
+
+	</head>
+	<body>
+		<?php
+			session_start();
+		?>
+		
+<center> <div id="Chargement" > </div> </center>
+<div class="contentBox" style="" id="content_8">
+<script type="text/javascript"> //Chargement de la page
+function hide_precharge() {
+document.getElementById('imagechargement').style.display='none';
+}
+if (window.attachEvent) { 
+eval("window.attachEvent('onload',hide_precharge);"); 
+}
+else { 
+eval("window.addEventListener('load',hide_precharge,false);"); 
+}
+</script>
+<div id="imagechargement" style="position: absolute; top: 200px; left: 50%;">
+<img src="image/img/load.gif" />
+</div>
+    
+    
+    
+
+	<style>
+	
+	body {
+	/* Anciens navigateurs */
+	background: black url("body-bg.png") repeat-y left;
+	-o-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
+	background-size: 100% 100%;
+	/* Navigateurs récents */
+	background: -webkit-gradient(
+		linear,
+		left bottom, right top,
+		from(darkgray),
+		to(black)
+	);
+	background: -webkit-linear-gradient(
+		left bottom,
+		darkgray,
+		black
+	);
+	background: -moz-linear-gradient(
+		left bottom,
+		darkgray,
+		black
+	);
+	background: -o-linear-gradient(
+		left bottom,
+		darkgray,
+		black
+	);
+	background: linear-gradient(
+		left bottom,
+		darkgray,
+		black
+	);
+}
+	
+
+		#map_index {
+			height: 1000px;
+			margin: 0 auto;
+			width: 100%;
+		}
+		
+		
+		#EmplacementDeMaCarte {
+			height: 100%;
+			width: 100%
+			margin: 0px;
+			padding: 0px
+		}
+
+		#panel {
+			float: right;
+			left: 50%;
+			margin: 0 auto;
+			padding: 0 5px 0 5px;
+			
+			border: 1px solid #999;
+			height: 100%;
+		}	
+			
+
+.contextmenu{
+    visibility:hidden;
+    background:white;
+    border:1px solid #8888FF;
+    z-index: 10;  
+    position: relative;
+    width: 140px;
+	color:rgb(255,102,0);
+}
+.contextmenu div{
+    padding-left: 5px
+    }
+
+</style>
+<div class="formDiv" id="map_canvas"></div>		
+		
+
+	</style>
+
+	<script type="text/javascript">
+	
+	
+
+
+
+		function nextElementSibling(el) {
+			do { el = el.nextSibling } while ( el && el.nodeType !== 1 );
+			return el;
+		}
+
+/*
+	Cette fonction permet en cas de click sur l'une des case correspondant aux USEI (menu de droite) de faire apparaître toutes les icones de l'USEI en question
+	De plus elle permet aussi une "bidirectionnalité en effet, cela permet à l'utilisateur de coché soit en premier les cases correspondantes au USEI puis après 
+	les cases correspondantes aux indicateurs (menu de gauche) ou l'inverse l'effet sera le même. Un ordre d'action n'est pas recquis.
+	On verifie également si dans le menu indicateur (gauche) il n'y a pas plusieurs cases de coché (si c'est le cas on doit faire apparaitre les deux indicateurs)
+*/	
+
+		function checkThree(li){
+			for(var i = 0 ; i < tabMarker.length; i++)
+			{
+				tabMarker[i].setMap(null);
+			}
+			var OT = document.getElementById("ot");
+			var INC = document.getElementById("inc");
+			var WO = document.getElementById("wo");
+			var cases=nextElementSibling(li.nextSibling).children;
+			if(li.checked == true && OT.checked == false && INC.checked == false && WO.checked == false ){
+				for(i = 0; i < cases.length; i++) {
+					cases[i].firstChild.checked = true;
+					var souscases=(nextElementSibling(nextElementSibling(cases[i].firstChild))).children;
+					for(j = 0; j < souscases.length; j++) {
+						souscases[j].firstChild.checked = true;
+					}
+					Envoimap(cases[i].firstChild);
+		  		} 
+			}
+			///////////////////////////////////////////
+			else if(li.checked == true && OT.checked ==true){
+				for(i = 0; i < cases.length; i++) {
+					cases[i].firstChild.checked = true;
+					var souscases=(nextElementSibling(nextElementSibling(cases[i].firstChild))).children;
+					for(j = 0; j < souscases.length; j++) {
+						souscases[j].firstChild.checked = true;
+					}
+					Envoimap(cases[i].firstChild);
+		  		} 
+			}
+			////////////////////////////////////////////
+			else if(li.checked == true && WO.checked ==true){
+				for(i = 0; i < cases.length; i++) {
+					cases[i].firstChild.checked = true;
+					var souscases=(nextElementSibling(nextElementSibling(cases[i].firstChild))).children;
+					for(j = 0; j < souscases.length; j++) {
+						souscases[j].firstChild.checked = true;
+					}
+					Envoimap(cases[i].firstChild);
+		  		} 
+			}
+			///////////////////////////////////////////
+			else if(li.checked == true && INC.checked ==true){
+				for(i = 0; i < cases.length; i++) {
+					cases[i].firstChild.checked = true;
+					var souscases=(nextElementSibling(nextElementSibling(cases[i].firstChild))).children;
+					for(j = 0; j < souscases.length; j++) {
+						souscases[j].firstChild.checked = true;
+					}
+					Envoimap(cases[i].firstChild);
+		  		} 
+			}
+
+			else {
+				for(i = 0; i < cases.length; i++) {
+					cases[i].firstChild.checked = false;
+					var souscases=(nextElementSibling(nextElementSibling(cases[i].firstChild))).children;
+					for(j = 0; j < souscases.length; j++) {
+						souscases[j].firstChild.checked = false;
+					}
+					Envoimap(cases[i].firstChild);
+		  		} 
+			}
+		}
+		
+		
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+
+/*
+	Cette fonction permet en cas de click sur l'une des case correspondant aux USEI (menu de droite) de faire apparaître toutes les icones DES PLAQUES en question
+	Cette fonction marche de pair avec la fonction checkFour (plus bas dans le code) qui elle permet de gerer la bidirectionnalité entre les deux menu
+*/	
+		function checkTwo(li){
+			var cases=(nextElementSibling(li.nextSibling)).children;;
+			if(li.checked == true){
+				for(i = 0; i < cases.length; i++) {
+					cases[i].firstChild.checked = true;
+			  	} 
+			}
+			
+			else {
+				for(i = 0; i < cases.length; i++) {
+					cases[i].firstChild.checked = false;
+				}
+			}
+
+			Envoimap(li);
+		}
+
+
+		(function($){
+			$(":checkbox").change(function(){
+				$m=0; // initialisation du nombre de cases cochées
+				$temp = $(this).parent().parent().children().length;
+				$(this).parent().parent().children().each(function(){
+					if ($(this).find(':first-child').prop('checked')){ // si la checkbox courante est cochée, on comptabilise
+						$m++;
+					}
+				})
+	
+				if ($m == $temp){
+					$(this).parent().parent().prev().prev().prop('checked', true).trigger('change');
+				}
+				else{
+					$(this).parent().parent().prev().prev().prop('checked', false).trigger('change');
+				}
+			});
+
+		})(jQuery);
+
+	</script>
+
+<!--********************************************************************************************
+*																							   *
+*  							CREATION DU MENU GEOGRAPHIQUE (DROITE) 							   *				 	
+*																							   *
+*********************************************************************************************-->
+		
+	<body onload="initialize();">
+
+		<br/>
+		<br/>
+
+		<div id="map_index" >
+
+
+			<div id="panel">
+				<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+				<script type="text/javascript">
+					
+					$(document).ready( function () {
+					
+				
+
+						// On cache tous les sous-menus sauf celui qui porte la classe "open_at_load"
+
+						$("ul.subMenu:not('.open_at_load')").hide();
+						$("ul.subMenu2:not('.open_at_load')").hide();
+
+						// On sélectionne tous les items de la liste portant la classe "toggleSubMenu" et on remplace l'element span qu'ils contiennent par un lien
+						$("li.toggleSubMenu span").each( function () {
+
+							// On stocke le contenu du span
+
+							var TexteSpan = $(this).text();
+							$(this).replaceWith('<a href="" title="Afficher le sous-menu">' + TexteSpan + '</a>') ;
+						} ) ;
+	
+						// On modifie l'événement "click" sur les liens dans les items de liste qui portent la classe "toggleSubMenu"
+
+						$("li.toggleSubMenu > a").click( function () {
+
+							// Si le sous-menu était déjà ouvert, on le referme
+
+							if ($(this).next("ul.subMenu:visible").length != 0) {
+								$(this).next("ul.subMenu").slideUp("normal", function () { $(this).parent().removeClass("open") } );
+							}
+
+							// Si le sous-menu est caché, on ferme les autres et on l'affiche
+
+							else {
+								$("ul.subMenu").slideUp("normal", function () { $(this).parent().removeClass("open") } );
+								$("ul.subMenu2").slideUp("normal", function () { $(this).parent().removeClass("open") } );
+								$(this).next("ul.subMenu").slideDown("normal", function () { $(this).parent().addClass("open") } );
+							}
+
+							// On empêche le navigateur de suivre le lien
+
+							return false;
+						});
+						 $("li.toggleSubMenu2 > a").click( function () {
+
+							// Si le sous-menu était déjà ouvert, on le referme
+
+							if ($(this).next("ul.subMenu2:visible").length != 0) {
+								$(this).next("ul.subMenu2").slideUp("normal", function () { $(this).parent().removeClass("open") } );
+							}
+
+							// Si le sous-menu est caché, on ferme les autres et on l'affiche
+
+							else {
+								$("ul.subMenu2").slideUp("normal", function () { $(this).parent().removeClass("open") } );
+								$(this).next("ul.subMenu2").slideDown("normal", function () { $(this).parent().addClass("open") } );
+							}
+
+							// On empêche le navigateur de suivre le lien
+
+							return false;
+						});
+					 } ) ;
+					 
+					 
+					 
+				</script> 
+				
+				<br />
+
+			
+	
+				<ul class="navigation">
+					<?php
+						if(file_exists('data.xml')){
+							unlink('data.xml');
+						}
+						try{
+							// Connexion à MySQL
+							$bdd = new PDO('mysql:host=localhost;dbname=info', 'root', '');
+							$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+							
+						}
+						catch(Exception $e){
+							// En cas d'erreur, on affiche un message et on arrête tout
+							echo "une erreur est survenue";
+							die('Erreur : '.$e->getMessage());
+
+						}
+						$req = "SELECT ID, USEI FROM usei";
+						$reponse = $bdd->query($req);		
+						$categories = array();
+						while ($donnees = $reponse->fetch()){
+							$idUsei = $donnees['ID'];
+							$usei = $donnees['USEI'];
+							echo "<li class=\"toggleSubMenu\"><input type=\"checkbox\" name=\"map\" id=\"$usei-ch\" value=\"$usei\" onclick=\"checkThree(this)\"/><span>$usei</span>\n";
+							echo "<ul style=\"display:block; \" class=\"subMenu\">\n";
+							$reponse2 = $bdd->query("SELECT * FROM zone WHERE USEI = '$idUsei'");
+							while ($donnees2 = $reponse2->fetch()){
+								$idZone = $donnees2['ID'];
+								$zone =  $donnees2['Zone'];
+								echo "<li style=\"position: static; left: 5%; \" class=\"toggleSubMenu2 open\"><input type=\"checkbox\" name=\"map\" class=\"five\" id=\"$zone-ch\" value=\"$zone\" onclick=\"checkTwo(this)\"/><span> $zone  </span>\n";
+								echo "<ul style=\"display: block; \" class=\"subMenu2\">\n";
+								$reponse3 = $bdd->query("SELECT ID, SECTEUR, SITE_CLIENT FROM base WHERE SECTEUR = '$idZone'");
+								while ($donnees3 = $reponse3->fetch()){
+									$idSite = $donnees3['ID'];
+									$site = $donnees3['SITE_CLIENT'];
+									echo "<li><input style=\"left: 10%;\" type=\"checkbox\" name=\"map\"  value=\"$site\" onclick=\"Envoimap(this)\"/><a href=\"site.php?site=$site\" target=_blank>$site</a></li>\n";
+								}//
+								echo "</ul>\n</li>\n";
+							}
+							echo "</ul>\n</li>\n";
+						}
+					?>
+				</ul>
+			</div>
+			
+<!--********************************************************************************************
+*																							   *
+*  							CREATION DU MENU INDICATEUR (GAUCHE) 							   *				 	
+*																							   *
+*********************************************************************************************-->
+			
+			
+			<div id="menuChoix">
+				<p>
+					<h4>Affichage des icones selon :</h4>
+					
+					<p id="indicone"><span></span> Indicateur Icone</p> 
+
+							
+						<ul class="trie">
+							
+							<li><label>Les WO
+								<?php
+									if(file_exists('data.xml')){
+										unlink('data.xml');
+									}
+									try{
+										// Connexion à MySQL
+										$bdd = new PDO('mysql:host=localhost;dbname=info', 'root', '');
+										$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+									}
+									catch(Exception $e){
+										// En cas d'erreur, on affiche un message et on arrête tout
+										echo "une erreur est survenue";
+										die('Erreur : '.$e->getMessage());
+									}
+									$req = "SELECT TYPETICKET, CODESITE, COUNT( * ) AS COMPTAGE 
+                                            FROM activite 
+                                            WHERE TYPETICKET = \"WO\" 
+                                            GROUP BY CODESITE";
+									$reponse = $bdd->query($req);		
+									$WOTotal = 0;
+									while ($donnees = $reponse -> fetch())
+									{
+										$CMPT = $donnees['COMPTAGE'];
+										$WOTotal= $WOTotal + $CMPT;
+									}
+									echo "<input type='checkbox' name='act[]' id='wo' value='$WOTotal' /><span>($WOTotal)</span> </label>
+							</li>
+							
+							<li><label>Les OT";
+							$reponse = $bdd -> query("SELECT TYPETICKET, CODESITE, COUNT( * ) AS COMPTAGE 
+                                                    FROM activite 
+                                                    WHERE TYPETICKET = \"OT\" 
+                                                    GROUP BY CODESITE");
+							$OTTotal = 0;
+							while ($donnees = $reponse -> fetch())
+							{
+								$CMPT = $donnees['COMPTAGE'];
+								$OTTotal= $OTTotal + $CMPT;
+							}
+							echo"<input type='checkbox' id='ot' name='act[]' value='$OTTotal'  /><span>($OTTotal)</span></label></li>
+							
+							<li><label>Les INC";
+							$reponse = $bdd -> query("SELECT TYPETICKET, CODESITE, COUNT( * ) AS COMPTAGE 
+                                                    FROM activite 
+                                                    WHERE TYPETICKET = \"INC\" 
+                                                    GROUP BY CODESITE");
+							$INCTotal = 0;
+							while ($donnees = $reponse -> fetch())
+							{
+								$CMPT = $donnees['COMPTAGE'];
+								$INCTotal= $INCTotal + $CMPT;
+							}
+							echo "<input type='checkbox' id='inc' name='act[]' value='$INCTotal'  /><span>($INCTotal)</span></label></li>
+						</ul>";
+
+					?>
+<!------------------------------------------------->
+					<p id="indicplaque" ><span></span> Indicateur plaque </p>
+
+						<ul class="trie2">
+							<li ><label style="cursor:pointer;">nombre de jours ouvrés :
+							<input type="checkbox" id="jrOuvre" name="jr" value="" /><span></span></label>
+							</li> 
+							
+                            <li>
+                                <select name="S1" onchange="ClignoteSelect()" id="S1">
+                                    <option value="C0" id=0>Selectionnez une valeur</option>
+                                
+                                
+                                <?php
+									if(file_exists('data.xml')){
+										unlink('data.xml');
+									}
+									try{
+										// Connexion à MySQL
+										$bdd = new PDO('mysql:host=localhost;dbname=info', 'root', '');
+										$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+									}
+									catch(Exception $e){
+										// En cas d'erreur, on affiche un message et on arrête tout
+										echo "une erreur est survenue";
+										die('Erreur : '.$e->getMessage());
+									}
+
+									$req = "SELECT COUNT(TYPETICKET) AS COMPTAGE_TYPETICKET, nombretechnicien.COMPTAGE_NOM,
+                                                   nombretechnicien.NOM_AGENCE_NIV2
+                                            FROM activiteplaque3, nombretechnicien
+                                            WHERE nombretechnicien.NOM_AGENCE_NIV2 = activiteplaque3.NOM_AGENCE_NIV2
+                                            GROUP BY nombretechnicien.NOM_AGENCE_NIV2";
+									$reponse = $bdd->query($req);
+                                    while($donnees = $reponse -> fetch())
+                                    {
+                                        echo("<option></option>");
+                                    }
+                                    
+                                ?>
+                                </select>
+                            </li>
+                            <br>
+                                <div id="AffichePlaque2"></div>
+                            
+						</ul>
+						<script>
+
+                            $("#S1").hide();
+                                
+                        </script>
+<!------------------------------------------------->
+                        <p id="indicplaque2" style="cursor:pointer;"><span></span> Indicateur plaque 2 </p>
+                        <ul class="trie3">
+                            <li>
+                                <label style="cursor:pointer;">Nombre de jours ouvrés :
+                                <input type="checkbox" id="jrOuvre2" name="jrOuvre2" value="" /><span></span></label>
+                            </li>
+                            <li>
+                                <div id=tij></div>
+                            </li>
+                        </ul>
+                                
+<!------------------------------------------------->
+                        <p id="indicplaque3" style="cursor:pointer;"><span></span> Indicateur plaque 3 </p>
+                        <ul class="trie4">
+                            <li>
+                                <label style="cursor:pointer;">Nombre de jours ouvrés :
+                                <input type="checkbox" id="jrOuvre3" name="jrOuvre3" value="" /><span></span></label>
+                            </li>
+                            <li>
+                                <input id=RangeTIJ type="range" step="0.05" onchange="ShowRangeValue(this.value)" onmouseup="ClignoteRange(this.value)">
+                                <span id="selRange">0</span> 
+                                <div id="RangePlaqueClignotante"></div>
+                            </li>
+                        </ul>
+
+				</p>
+				<input id="popFen" type="button" value="cacher"></input>
+
+			</div>
+        <script>
+        document.getElementById("RangeTIJ").style.display="none";
+        document.getElementById("selRange").style.display="none";
+       function ShowRangeValue(RangeValue)
+        {
+            document.getElementById("selRange").innerHTML = RangeValue;
+            
+        }   
+        </script>
+			
+		<script>
+			
+		woVal = document.getElementById('wo');
+		if(woVal.checked == true)
+		{
+			woVal = prompt("entrer une valeur repère pour les wo");
+		}
+	
+
+	
+		function checkFour(li)
+		{
+			var idf = document.getElementById("USEI_IDF-ch");
+			var ouest = document.getElementById("USEI_OUEST-ch");
+			var est = document.getElementById("USEI_EST-ch");
+		
+			var cases;
+			if(idf.checked == true)
+			{
+				cases=nextElementSibling(idf.nextSibling).children;
+			}
+			else if (ouest.checked == true)
+			{
+				cases=nextElementSibling(ouest.nextSibling).children;
+			}
+			else if(est.checked == true)
+			{
+				cases=nextElementSibling(est.nextSibling).children;					
+			}
+			if((li.checked == true && idf.checked == true) || (li.checked == true && ouest.checked == true) || (li.checked == true && est.checked == true))
+			{
+				for(i = 0; i < cases.length; i++) {
+					cases[i].firstChild.checked = true;
+					var souscases=(nextElementSibling(nextElementSibling(cases[i].firstChild))).children;
+					for(j = 0; j < souscases.length; j++) {
+						souscases[j].firstChild.checked = true;
+					}
+					Envoimap(cases[i].firstChild);
+				} 
+			}
+			
+		
+		}
+		
+		
+/*
+	Cette fonction récursive (donc à faire en  permet de gerer la bidirectionnalité des actions de l'utilisateur, entre le les cases faisant apparaitre les sites (menu de droite) et le menu indicateur (gauche)
+*/
+				
+					
+	
+		function checkFive(li)//Le paramètre pris est la balise input correspondant a la case du site sur lequel on a cliqué
+		{
+		
+
+			var tab = document.getElementsByName("act[]");
+			var sousTab = document.querySelectorAll('.five');        
+			
+			
+			
+			for(var i = 0; i< sousTab.length ; i++)
+			{
+				var eponge = sousTab[i];
+				var cases=(nextElementSibling(eponge.nextSibling)).children;
+				if(sousTab[i].checked == true)
+				{
+					
+					
+				
+					for(var j = 0; j < cases.length; j++) //Si on a coché une case tout les cases contenue dans le sous menu sont coché aussi
+					{
+							cases[i].firstChild.checked = true;
+					}
+						
+					Envoimap(eponge);
+
+				}
+					
+				else 
+				{
+					for(i = 0; i < cases.length; i++) 
+					{
+						cases[i].firstChild.checked = true;
+					}
+
+
+				}
+				
+				for(var lex = 0; lex <tabMarker.length; lex++)       //Si le clique sert à décoché on efface tous les markers correspondant à la case (et donc toutes les sous cases), présent sur la carte
+				{
+					tabMarker[lex].setMap(null);
+
+				}
+				
+				
+			}
+			
+			
+			if(li.checked == false)
+			{
+				
+				for(var lex = 0; lex <tabMarker.length; lex++)
+				{
+					if(tabMarker[lex].icon.scaledSize.height != 20 || tabMarker[lex].icon.scaledSize.width != 15)
+					{
+						tabMarker[lex].setMap(null);
+
+					}
+				}
+				for(var a = 0; a < tab.length; a++)//Au cas ou on decoche une case dans le menu indicateur, on verifie si il n'y a pas une autre case coché dans quel cas l'indicateur décoché devra 
+												   //disparaitre sur la carte mais l'autre devra rester	
+				{
+					if(tab[a].checked == true && tab[a]!=li) 					
+					{
+						checkFive(tab[a]);//Cette fonction s'appel elle même tant qu'il y a d'autre case encore coché dans le menu indicateur
+					}
+				}
+
+			}
+			
+		}
+			
+			</script>
+			
+			
+			
+			<div id="EmplacementDeMaCarte"></div> 
+			
+			
+			
+			
+
+		</div>
+		
+		<img id="fleche" src="image/img2/fleche.png" title="Remonter en Haut" />
+		<script>
+		
+			$("#fleche").click(function(){
+			
+				$('html,body').animate({scrollTop:0},'slow');
+			
+			});
+		
+		</script>
+
+		<?php	
+			$monfichier1=fopen('data.xml','a+');
+			fputs($monfichier1,'<?xml version="1.0" encoding="UTF-8"?>
+				<!-- JE PEUX METTRE DES COMMENTAIRES-->
+				<xml>
+				<markers>
+			');
+			try{
+				// Connexion à MySQL
+				$bdd = new PDO('mysql:host=localhost;dbname=info', 'root', '');
+			}
+			catch(Exception $e){
+				// En cas d'erreur, on affiche un message et on arrête tout
+
+				die('Erreur : '.$e->getMessage());
+			}
+			$reponse = $bdd->query('SELECT usei.id, base.id, zone.id, zone.Zone as ZONE, SITE_CLIENT, ADRESSE, VILLE, CODE_POSTAL, SECTEUR, LONGITUDE, LATITUDE, TECHNICIEN, zone.USEI, usei.usei as USEIFORXML, TYPE_DE_SITE
+						FROM base, usei, zone
+						WHERE base.SECTEUR = zone.id
+						AND zone.usei = usei.ID');
+			while ($data = $reponse->fetch()){
+			
+	
+
+				if(empty($tt)){
+					$tt=$data['ZONE'];
+					fputs($monfichier1,'<!-- '.$data['ZONE'].' -->
+					');
+				}
+				if($tt!=$data['ZONE']){
+					fputs($monfichier1,'<!-- '.$data['ZONE'].' -->
+					');
+				}
+				fputs($monfichier1,'<marker lat="');
+				fputs($monfichier1,str_replace(',', '.', $data['LATITUDE']));
+				fputs($monfichier1,'" ');
+				fputs($monfichier1,'lng="');
+				fputs($monfichier1,str_replace(',', '.', $data['LONGITUDE']));
+				fputs($monfichier1,'" ');
+				fputs($monfichier1,'Zone="');
+				fputs($monfichier1,stripcslashes($data['ZONE']));
+				fputs($monfichier1,'" ');
+				fputs($monfichier1,'Nom="');
+				fputs($monfichier1,stripcslashes($data['SITE_CLIENT']));
+				fputs($monfichier1,'" ');
+				fputs($monfichier1,'adresse="');
+				fputs($monfichier1,stripcslashes($data['ADRESSE']));
+				fputs($monfichier1,'" ');
+				fputs($monfichier1,'nomc="');
+				fputs($monfichier1,str_replace('_', ' ', stripcslashes($data['SITE_CLIENT'])));
+			 	fputs($monfichier1,'" ');
+				fputs($monfichier1,'codepostal="');
+				fputs($monfichier1,$data['CODE_POSTAL']);
+				fputs($monfichier1,'" ');
+			 	fputs($monfichier1,'nomtec="');
+				fputs($monfichier1,str_replace('_', ' ', stripcslashes($data['TECHNICIEN'])));
+				fputs($monfichier1,'" ');
+				fputs($monfichier1,'USEI="');
+				fputs($monfichier1,$data['USEIFORXML']);
+				fputs($monfichier1,'" ');
+				fputs($monfichier1,'type="');
+				fputs($monfichier1,$data['TYPE_DE_SITE']);
+				fputs($monfichier1,'" ');
+				fputs($monfichier1,'ville="');
+				fputs($monfichier1,stripcslashes($data['VILLE'])); 
+				fputs($monfichier1,'" />
+				');
+				$tt=$data['ZONE'];
+			}
+			fputs($monfichier1,'</markers>');
+			fputs($monfichier1, "</xml>\n");
+			fclose($monfichier1);
+		?>
+
+		<script>
+			var inputElem = document.getElementsByTagName("input");
+			for(i=0;i<inputElem.length;i++){
+				if(inputElem[i].getAttribute("type")=="checkbox"){
+					inputElem[i].checked = false;
+				}
+				if(inputElem[i].checked){
+					inputElem[i+1].checked=true;
+				}
+			}
+			
+		</script>
+		
+				
+<!--********************************************************************************************
+*																							   *
+*  								TRAITEMENT ET CODE DE LA LEGENDE  							   *				 	
+*																							   *
+**********************************************************************************************-->		
+		
+		
+		
+		<div id="legende" onload = "depart();">
+	
+		<h2>Légende  </h2>		
+		 <div class="plaque" >
+			 
+			 <h3 class="titrePlaque"><label><input type="checkbox" name="plaque" id="Plaque" onclick="cocherToutPlaque(this.checked);"/>Plaques</label></h3>
+<script>
+			 
+			
+			 document.write("<table>");
+			 
+document.write("");
+document.write("<tr>");
+
+var tr=0
+for (var i =0; i<zone.length;i++){
+	if(i!=8 && i!=9){
+		if( tr%3==0 ){
+
+			document.write("</tr>");}
+		document.write('<td><label><img src='+zone[i][7]+'> : Plaque '+zone[i][0]);
+		document.write('<input type=\"checkbox" name="plaque[]" id='+zone[i][0]+'  onclick="afficherPlaque(this);"></label></td>');
+		document.write("");
+		tr++;
+		if(tr%3==0 ){document.write("<tr>");}
+	}
+}			
+document.write("<\/table>")	
+		
+		
+		
+		
+
+</script>
+		 </div>
+		 
+		 
+		 <div class="icone">
+			 <h3 class="titreIcone"><label><input type="checkbox" name="legendeIcone" id="Icone" onclick="cocherToutIcone(this.checked);"/>Icones</label></h3>
+			 <table id="listeIcone">
+				 <tr>
+						<td>
+							<label><img src="image/img/icone/binome.png" alt="Binome"> : Binome
+							<input type="checkbox" name="icone[]"  id="binome" checked></label>
+						</td>
+						
+						<td>
+							<label><img src="image/img/icone/boutique.png" alt="Boutique"> : Boutique
+							<input type="checkbox" name="icone[]"  id="boutique" checked></label>
+						</td>
+			
+						<td>
+							<label><img src="image/img/icone/service.png" alt="Service"> : Service
+							<input type="checkbox" name="icone[]"  id="service" checked></label>
+						</td>
+						
+						
+						<td>	
+							<label><img src="image/img/icone/autre.png" alt="Autre"> : Autre
+							<input type="checkbox" name="icone[]"  id="autre" checked></label>
+						</td>
+				</tr>
+			</table>
+			<h3 class="titreZones"><label name="legendeIcone" id="zoneAll">Zones</label></h3>
+			<table>
+				
+				<tr>
+					<td><label> ZONE : Est<input type ="checkbox" name="zone[]" id="USEI_EST" onclick="afficherPlaque(this);"/></label></td>
+					<td><label> ZONE : Ouest<input type ="checkbox" name="zone[]" id="USEI_OUEST"onclick="afficherPlaque(this);"/></label></td>
+				</tr>
+			</table>
+		</div>
+		<script>document.getElementById('Icone').checked = true;</script>
+		
+		
+	</div>
+	
+	<script>
+
+</script>
+
+
+<!--********************************************************************************************
+*																							   *
+*  							FIN DU TRAITEMENT DE LA LEGENDE  							       *				 	
+*																							   *
+*********************************************************************************************-->
+
+<!--********************************************************************************************
+*																							   *
+*  							SCRIPT PERMETTANT LA SAUVEGARDE  							       *				 	
+*																							   *
+*********************************************************************************************-->
+
+	<script>
+
+		$(".save").click(function(){
+		
+			var nomSauvegarde = prompt("choisir un nom pour la sauvegarde");
+			
+			$.ajax({//On envoie par AJAX le nom de la sauvegarde choisi afin que le fichier SQL généré prennent ce nom la
+			
+				url: "listeBases2.php",
+				type: "get",
+				success: function(reponse){
+				
+					var res = JSON.parse(reponse);
+					for(var i = 0; i< res.length; i++)
+					{
+						var elem = res[i].split('.');
+						if(elem[0] == nomSauvegarde)
+						{
+							if(confirm("cette base existe déjà voulez vous l'ecraser ?"))
+							{
+								$.ajax({
+									
+									url: "sauvegarde.php",
+									type: "get",
+									data:{"donnee": nomSauvegarde},
+									error: function(xhr,etat,erreur){	
+										alert(xhr.status + ":" + erreur);},
+
+								});							
+								
+							}
+							else 
+								break;
+						}
+						
+						$.ajax({
+									
+									url: "sauvegarde.php",
+									type: "get",
+									data:{"donnee": nomSauvegarde},
+									error: function(xhr,etat,erreur){	
+										alert(xhr.status + ":" + erreur);},
+
+								});
+					}
+				
+				},
+		
+		
+		});
+	
+	});
+	
+	</script>
+
+            
+<input type="hidden" id="sess_var" value="<?php echo $_SESSION['login']; ?>"/>
+
+		<noscript> 
+			<p>Attention : </p> 
+			<p>Afin de pouvoir utiliser Google Maps, JavaScript doit être activé.</p> 
+			<p>Or, il semble que JavaScript est désactivé ou qu'il n'est pas supporté par votre navigateur.</p> 
+			<p>Pour afficher Google Maps, activez JavaScript en modifiant les options de votre navigateur, puis essayez à nouveau.</p> 
+		</noscript> 
+	</body>
+</html>
+
+
